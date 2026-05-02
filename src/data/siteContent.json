@@ -1,0 +1,40 @@
+{
+  "brandName": "X AyLex",
+  "heroTagline": "مع الفنان {BRAND_NAME} تكتسب اللقطة نبضًا فنيًا مختلفًا ",
+  "heroSubtitle": "مرحبا بك يا صديقي ",
+  "heroPortraitUrl": "/media/uploads/1777626508605-Color_correction_subtle_warm_tone_202605011153.jpeg",
+  "heroBgUrl": "/media/uploads/1777626456256-cinematic-recolor.jpeg",
+  "about": {
+    "portraitUrl": "/media/about/portraits/1777638309127-about-portrait-01.jpeg",
+    "aboutBgImage": "/background.jpg",
+    "nickname": "X AyLex",
+    "realName": "Mostafa Mohammed",
+    "heading": "أدمج بين الحس الفني والخبرة",
+    "paragraph": "أدمج بين الحس الفني والخبرة التقنية لصناعة فيديوهات سينمائية، محتوى يوتيوب احترافي، وإخراج بصري يمنح كل مشروع شخصية مستقلة وحضورًا استثنائيًا.",
+    "bullets": [
+      "مونتاج سينمائي احترافي",
+      "صناعة محتوى يوتيوب فاخر",
+      "تلوين بصري متقدم",
+      "هندسة صوتية وإيقاع بصري",
+      "إخراج يترك انطباعًا قويًا"
+    ],
+    "tools": [
+      {
+        "name": "After Effects",
+        "icon": "/aftereffects-icon.png"
+      },
+      {
+        "name": "DaVinci Resolve",
+        "icon": "/davinci-icon.png"
+      },
+      {
+        "name": "Adobe Premiere Pro",
+        "icon": "/premiere-icon.png"
+      }
+    ]
+  },
+  "behanceProfile": "https://www.behance.net/aiaylex",
+  "instagramProfile": "https://www.instagram.com/aylex_ax/",
+  "whatsAppNumber": "+201102469156",
+  "emailAddress": "aiaylex1111@gmail.com"
+}
