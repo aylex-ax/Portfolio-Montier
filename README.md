@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎬 Portfolio Montier
 
-## Getting Started
+> A professional cinematic portfolio built to showcase creative visual works, editing identity, and digital storytelling.
 
-First, run the development server:
+---
+
+## ✨ Introduction
+
+I have always been passionate about visual creativity, cinematic editing, storytelling, and building artistic experiences that leave a strong impression.
+
+Because of that passion, I created **Portfolio Montier** — a personal professional portfolio website designed to present my completed projects, editing style, and creative growth in one elegant digital space.
+
+This platform was carefully built to remain scalable, organized, and easy to expand as new works continue to be added over time.
+
+---
+
+# 🚀 LIVE WEBSITE PREVIEW
+
+## ➜ Official Portfolio Link:
+### 🔗 [Visit The Live Website Here](PASTE_YOUR_WEBSITE_LINK_HERE)
+
+---
+
+## 🧠 Project Purpose
+
+Portfolio Montier is not just a normal static portfolio.
+
+It was developed as a **full creative presentation system** that allows:
+
+- showcasing featured visual works,
+- presenting cinematic thumbnails,
+- displaying before/after editing samples,
+- organizing project galleries,
+- and continuously updating portfolio content professionally.
+
+The main goal was to create a digital identity that reflects both technical editing skills and artistic visual taste.
+
+---
+
+## 🌟 Main Features
+
+### 🎞️ Frontend Experience
+- Cinematic modern homepage
+- Smooth responsive layout
+- Featured works presentation
+- Dedicated works gallery
+- Elegant transitions and premium styling
+
+### ⚙️ Dynamic Content Management
+- JSON based scalable content structure
+- Flexible media rendering
+- Organized project categorization
+- Easy future project insertion
+
+### 🔒 Hidden Admin Dashboard
+- Internal admin management panel
+- Upload and replace media assets
+- Edit project information easily
+- Update thumbnails and about section content
+
+> Sensitive credentials, private routes, and secure access data are intentionally not exposed in this repository.
+
+---
+
+## 🏗️ Built With
+
+- ⚛️ Next.js
+- ⚛️ React.js
+- 🎨 Tailwind CSS
+- 🔥 Firebase Storage Logic
+- 🛠️ Custom API Routes
+
+---
+
+## 📁 Project Structure
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+src/
+public/
+components/
+app/
+data/
+api/
