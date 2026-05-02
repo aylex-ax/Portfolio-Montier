@@ -12,7 +12,7 @@ const cairo = Cairo({
 });
 
 export const metadata = {
-  title: "Montier | Elite Cinematic Editor",
+  title: "X AyLex",
   description: "Personal elite editor brand portfolio",
 };
 
