@@ -1,34 +1,26 @@
-import fs from 'fs';
-import path from 'path';
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import PlayableCard from "@/components/ui/PlayableCard";
 import WorksGridClient from "@/components/sections/WorksGridClient";
+import { getSiteContent, getProjects } from "@/lib/api";
 
-export default function WorksPage() {
-  const projectsPath = path.join(process.cwd(), 'src', 'data', 'projects.json');
-  const contentPath = path.join(process.cwd(), 'src', 'data', 'siteContent.json');
-  
-  let projects = [];
-  let siteContent = { brandName: "X AYLEX" };
+export const dynamic = 'force-dynamic';
 
-  try {
-    if (fs.existsSync(projectsPath)) {
-      projects = JSON.parse(fs.readFileSync(projectsPath, 'utf8'));
-    }
-    if (fs.existsSync(contentPath)) {
-      siteContent = JSON.parse(fs.readFileSync(contentPath, 'utf8'));
-    }
-  } catch (err) {
-    console.error("Error reading data", err);
-  }
+export default async function WorksPage() {
+  const [fetchedSiteContent, fetchedProjects] = await Promise.all([
+    getSiteContent(),
+    getProjects()
+  ]);
+
+  const siteContent = fetchedSiteContent || { brandName: "X AYLEX" };
+  const projects = fetchedProjects || [];
 
   // Sort by order
   const displayProjects = projects.sort((a, b) => a.order - b.order);
 
   return (
     <div className="bg-black-pure min-h-screen text-white flex flex-col">
-      <Navigation brandName={siteContent.brandName} />
+      <Navigation brandName={siteContent?.brandName || "X AYLEX"} />
       
       <main className="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto w-full">
         <div className="flex flex-col gap-4 mb-16 items-center text-center">

@@ -1,5 +1,6 @@
 import { Inter, Cairo } from "next/font/google";
 import "./globals.css";
+import { getSiteContent } from "@/lib/api";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -17,19 +18,9 @@ export const metadata = {
 };
 
 import FloatingContactDock from "@/components/ui/FloatingContactDock";
-import fs from 'fs';
-import path from 'path';
 
-export default function RootLayout({ children }) {
-  let siteSettings = {};
-  try {
-    const contentPath = path.join(process.cwd(), 'src', 'data', 'siteContent.json');
-    if (fs.existsSync(contentPath)) {
-      siteSettings = JSON.parse(fs.readFileSync(contentPath, 'utf8'));
-    }
-  } catch (err) {
-    console.error("Error reading layout settings:", err);
-  }
+export default async function RootLayout({ children }) {
+  const siteSettings = await getSiteContent() || {};
 
   return (
     <html

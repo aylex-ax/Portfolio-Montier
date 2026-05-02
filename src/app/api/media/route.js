@@ -1,41 +1,36 @@
-import fs from 'fs';
-import path from 'path';
+import { supabaseAdmin } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const images = [];
+    const folders = ['uploads', 'thumbnails', 'about/portraits', 'about/backgrounds', 'about/tools'];
+    let allImages = [];
 
-    // Helper to get files from a directory
-    const getFiles = (dirPath, basePath) => {
-      if (fs.existsSync(dirPath)) {
-        const files = fs.readdirSync(dirPath);
-        for (const file of files) {
-          const ext = path.extname(file).toLowerCase();
-          if (['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'].includes(ext)) {
-            images.push({
-              name: file,
-              url: `${basePath}/${file}`,
-            });
-          }
-        }
+    for (const folder of folders) {
+      const { data, error } = await supabaseAdmin.storage
+        .from('media')
+        .list(folder, {
+          limit: 200,
+          sortBy: { column: 'created_at', order: 'desc' },
+        });
+
+      if (!error && data) {
+        const files = data
+          .filter(f => f.name !== '.emptyFolderPlaceholder' && f.name)
+          .map(f => ({
+            name: f.name,
+            folder,
+            url: supabaseAdmin.storage
+              .from('media')
+              .getPublicUrl(`${folder}/${f.name}`).data.publicUrl,
+          }));
+        allImages = [...allImages, ...files];
       }
-    };
+    }
 
-    // Scan public root for existing images
-    getFiles(path.join(process.cwd(), 'public'), '');
-    
-    // Scan uploads directory
-    getFiles(path.join(process.cwd(), 'public', 'media', 'uploads'), '/media/uploads');
-    
-    // Scan about directories
-    getFiles(path.join(process.cwd(), 'public', 'media', 'about', 'portraits'), '/media/about/portraits');
-    getFiles(path.join(process.cwd(), 'public', 'media', 'about', 'tools'), '/media/about/tools');
-
-    return NextResponse.json({ images });
-  } catch (error) {
-    console.error('Error fetching media:', error);
-    return NextResponse.json({ error: 'Failed to fetch media' }, { status: 500 });
+    return NextResponse.json({ images: allImages });
+  } catch (err) {
+    return NextResponse.json({ images: [] });
   }
 }
 
@@ -43,33 +38,61 @@ export async function POST(request) {
   try {
     const formData = await request.formData();
     const file = formData.get('file');
-    let folder = formData.get('folder'); // e.g., 'about/portraits', 'about/tools', or null
-
-    if (!folder || (!folder.startsWith('about/') && folder !== 'uploads')) {
-      folder = 'uploads';
-    }
+    const folder = formData.get('folder') || 'uploads';
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
-    const UPLOAD_DIR = path.join(process.cwd(), 'public', 'media', folder);
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const fileName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-    
-    if (!fs.existsSync(UPLOAD_DIR)) {
-      fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const timestamp = Date.now();
+    const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const fileName = `${folder}/${timestamp}-${safeName}`;
+
+    const { error } = await supabaseAdmin.storage
+      .from('media')
+      .upload(fileName, buffer, {
+        contentType: file.type,
+        upsert: true,
+      });
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    const filePath = path.join(UPLOAD_DIR, fileName);
-    fs.writeFileSync(filePath, buffer);
+    const { data: urlData } = supabaseAdmin.storage
+      .from('media')
+      .getPublicUrl(fileName);
 
-    return NextResponse.json({ 
-      success: true, 
-      url: `/media/${folder}/${fileName}` 
+    return NextResponse.json({
+      success: true,
+      url: urlData.publicUrl,
+      path: fileName,
     });
-  } catch (error) {
-    console.error('Error uploading media:', error);
-    return NextResponse.json({ error: 'Failed to upload media' }, { status: 500 });
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+export async function DELETE(request) {
+  try {
+    const { path } = await request.json();
+    
+    if (!path) {
+      return NextResponse.json({ error: 'No path provided' }, { status: 400 });
+    }
+
+    const { error } = await supabaseAdmin.storage
+      .from('media')
+      .remove([path]);
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

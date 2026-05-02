@@ -1,39 +1,59 @@
-import fs from 'fs';
-import path from 'path';
+import { supabaseAdmin } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
-
-const dataFilePath = path.join(process.cwd(), 'src', 'data', 'projects.json');
 
 export async function GET() {
   try {
-    if (!fs.existsSync(dataFilePath)) {
-      return NextResponse.json([]);
+    const { data, error } = await supabaseAdmin
+      .from('projects')
+      .select('*')
+      .order('order', { ascending: true });
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
-    const fileContent = fs.readFileSync(dataFilePath, 'utf8');
-    const data = JSON.parse(fileContent);
-    return NextResponse.json(data);
-  } catch (error) {
-    console.error('Error reading projects data:', error);
-    return NextResponse.json({ error: 'Failed to read data' }, { status: 500 });
+
+    const mapped = data.map(p => ({
+      id: p.id,
+      title: p.title,
+      description: p.description,
+      videoUrl: p.video_url,
+      thumbnailPath: p.thumbnail_path,
+      order: p.order,
+      isFeatured: p.is_featured,
+    }));
+
+    return NextResponse.json(mapped);
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
 export async function POST(request) {
   try {
-    const data = await request.json();
-    
-    // Ensure directory exists
-    const dir = path.dirname(dataFilePath);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+    const projects = await request.json();
+
+    // Delete all existing and re-insert (bulk save)
+    await supabaseAdmin.from('projects').delete().neq('id', '');
+
+    if (projects.length > 0) {
+      const toInsert = projects.map(p => ({
+        id: p.id || Date.now().toString(),
+        title: p.title || '',
+        description: p.description || '',
+        video_url: p.videoUrl || '',
+        thumbnail_path: p.thumbnailPath || '',
+        order: p.order || 0,
+        is_featured: p.isFeatured || false,
+      }));
+
+      const { error } = await supabaseAdmin.from('projects').insert(toInsert);
+      if (error) {
+        return NextResponse.json({ error: error.message }, { status: 500 });
+      }
     }
 
-    // Overwrite the file with new projects array
-    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf8');
-    
-    return NextResponse.json({ success: true, data });
-  } catch (error) {
-    console.error('Error saving projects data:', error);
-    return NextResponse.json({ error: 'Failed to save data' }, { status: 500 });
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

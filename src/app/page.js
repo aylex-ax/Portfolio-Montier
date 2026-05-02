@@ -1,16 +1,19 @@
-import fs from 'fs';
-import path from 'path';
 import Navigation from "@/components/layout/Navigation";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import FeaturedWorks from "@/components/sections/FeaturedWorks";
 import AboutMerged from "@/components/sections/AboutMerged";
+import { getSiteContent, getProjects } from "@/lib/api";
 
-export default function Home() {
-  const contentPath = path.join(process.cwd(), 'src', 'data', 'siteContent.json');
-  const projectsPath = path.join(process.cwd(), 'src', 'data', 'projects.json');
-  
-  let siteContent = {
+export const dynamic = 'force-dynamic';
+
+export default async function Home() {
+  const [fetchedSiteContent, fetchedProjects] = await Promise.all([
+    getSiteContent(),
+    getProjects()
+  ]);
+
+  const siteContent = fetchedSiteContent || {
     brandName: "X AYLEX",
     heroTagline: "مع الفنان {BRAND_NAME} تكتسب اللقطة نبضًا فنيًا مختلفًا",
     heroSubtitle: "",
@@ -18,22 +21,11 @@ export default function Home() {
     heroBgUrl: "/background.jpg"
   };
 
-  let projects = [];
-
-  try {
-    if (fs.existsSync(contentPath)) {
-      siteContent = JSON.parse(fs.readFileSync(contentPath, 'utf8'));
-    }
-    if (fs.existsSync(projectsPath)) {
-      projects = JSON.parse(fs.readFileSync(projectsPath, 'utf8'));
-    }
-  } catch (err) {
-    console.error("Error reading site data", err);
-  }
+  const projects = fetchedProjects || [];
 
   return (
     <>
-      <Navigation brandName={siteContent.brandName} />
+      <Navigation brandName={siteContent?.brandName || "X AYLEX"} />
       <main className="flex-grow flex flex-col w-full overflow-hidden">
         <Hero settings={siteContent} />
         <FeaturedWorks projects={projects} />

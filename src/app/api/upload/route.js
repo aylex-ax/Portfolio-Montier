@@ -5,6 +5,7 @@ export async function POST(request) {
   try {
     const formData = await request.formData();
     const file = formData.get('file');
+    const folder = formData.get('folder') || 'uploads';
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
@@ -14,7 +15,7 @@ export async function POST(request) {
     const buffer = Buffer.from(bytes);
     const timestamp = Date.now();
     const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-    const fileName = `thumbnails/${timestamp}-${safeName}`;
+    const fileName = `${folder}/${timestamp}-${safeName}`;
 
     const { error } = await supabaseAdmin.storage
       .from('media')
@@ -24,6 +25,7 @@ export async function POST(request) {
       });
 
     if (error) {
+      console.error('Upload error:', error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
@@ -36,24 +38,6 @@ export async function POST(request) {
       url: urlData.publicUrl,
       path: fileName,
     });
-  } catch (err) {
-    return NextResponse.json({ error: err.message }, { status: 500 });
-  }
-}
-
-export async function DELETE(request) {
-  try {
-    const { url } = await request.json();
-    if (!url) return NextResponse.json({ success: true });
-
-    // Extract path from Supabase URL
-    const urlObj = new URL(url);
-    const pathParts = urlObj.pathname.split('/media/');
-    if (pathParts.length > 1) {
-      await supabaseAdmin.storage.from('media').remove([pathParts[1]]);
-    }
-
-    return NextResponse.json({ success: true });
   } catch (err) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
