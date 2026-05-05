@@ -25,7 +25,7 @@ export default async function WorksPage() {
       <main className="flex-grow pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto w-full">
         <div className="flex flex-col gap-4 mb-16 items-center text-center">
           <h1 className="text-xs md:text-sm font-sans tracking-[0.4em] text-gold-500 uppercase drop-shadow-md">All Works</h1>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-100 drop-shadow-lg">جميع الأعمال</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-100 drop-shadow-lg">All Works</h2>
           <div className="w-16 h-[2px] bg-gradient-to-r from-transparent via-gold-500 to-transparent mt-6 opacity-70" />
         </div>
 
