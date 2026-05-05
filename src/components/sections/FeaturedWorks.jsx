@@ -63,7 +63,7 @@ export default function FeaturedWorks({ projects }) {
         <div className="mt-32 flex justify-center">
           <Link href="/works">
             <button className="px-12 py-5 border border-gold-500/40 hover:border-gold-500 text-gold-400 hover:text-white font-bold rounded-sm tracking-widest transition-all duration-500 bg-black-pure/50 hover:bg-gold-500/10 hover:shadow-[0_0_40px_rgba(212,175,55,0.2)] hover:-translate-y-1">
-              عرض جميع الأعمال
+              Show All Projects
             </button>
           </Link>
         </div>
