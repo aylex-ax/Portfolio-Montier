@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export default function Hero({ settings = {} }) {
   const brandName = settings.brandName || "X AYLEX";
-  const heroTaglineRaw = settings.heroTagline || "مع الفنان {BRAND_NAME} تكتسب اللقطة نبضًا فنيًا مختلفًا";
+  const heroTaglineRaw = settings.heroTagline || "Don't ask what art is — ask who gave it a soul {BRAND_NAME}";
   
   // Replace {BRAND_NAME} with actual brand name wrapped in gold span
   const taglineParts = heroTaglineRaw.split("{BRAND_NAME}");
@@ -143,13 +143,13 @@ export default function Hero({ settings = {} }) {
               onClick={() => scrollToSection('works')}
               className="px-10 py-4 bg-gold-500 hover:bg-gold-400 text-black-pure font-bold rounded-sm tracking-widest transition-all duration-300 shadow-[0_0_30px_rgba(212,175,55,0.2)] hover:shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:-translate-y-1"
             >
-              أعمالي
+              My Work
             </button>
             <button 
               onClick={() => scrollToSection('about')}
               className="px-10 py-4 border border-white/20 hover:border-gold-500 text-white font-bold rounded-sm tracking-widest transition-all duration-300 bg-black-pure/30 backdrop-blur-md hover:bg-black-pure/50 hover:-translate-y-1 hover:shadow-[0_0_30px_rgba(212,175,55,0.2)]"
             >
-              تعرف عليّ
+              About Me
             </button>
           </motion.div>
         </div>
