@@ -82,7 +82,7 @@ export default function WorksGridClient({ projects }) {
               disabled={currentPage === 1}
               className="px-5 py-2.5 bg-black-pure border border-white/10 rounded-sm text-gray-400 hover:text-gold-400 hover:border-gold-500/50 hover:bg-gold-500/5 disabled:opacity-30 disabled:pointer-events-none transition-all"
             >
-              السابق
+              Back
             </button>
             
             <div className="flex items-center gap-2">
@@ -106,7 +106,7 @@ export default function WorksGridClient({ projects }) {
               disabled={currentPage === totalPages}
               className="px-5 py-2.5 bg-black-pure border border-white/10 rounded-sm text-gray-400 hover:text-gold-400 hover:border-gold-500/50 hover:bg-gold-500/5 disabled:opacity-30 disabled:pointer-events-none transition-all"
             >
-              التالي
+              Next
             </button>
           </div>
         )}
