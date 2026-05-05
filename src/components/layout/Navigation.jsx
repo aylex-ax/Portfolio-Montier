@@ -14,8 +14,8 @@ export default function Navigation({ brandName = "X AYLEX" }) {
         {brandName}
       </Link>
       <div className="flex gap-8 text-sm font-medium tracking-wider">
-        <Link href="/#hero" className="hover:text-gold-400 transition-colors">الرئيسية</Link>
-        <Link href="/works" className="hover:text-gold-400 transition-colors">الأعمال</Link>
+        <Link href="/#hero" className="hover:text-gold-400 transition-colors">Home</Link>
+        <Link href="/works" className="hover:text-gold-400 transition-colors">Works</Link>
       </div>
     </motion.nav>
   );
