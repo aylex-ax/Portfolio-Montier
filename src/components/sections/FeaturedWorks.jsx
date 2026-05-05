@@ -48,7 +48,7 @@ export default function FeaturedWorks({ projects }) {
         {/* Section Header */}
         <div className="flex flex-col gap-4 mb-24 items-center text-center">
           <h2 className="text-xs md:text-sm font-sans tracking-[0.4em] text-gold-500 uppercase drop-shadow-md">Featured Works</h2>
-          <h3 className="text-4xl md:text-6xl font-bold text-gray-100 drop-shadow-lg">أبرز الأعمال</h3>
+          <h3 className="text-4xl md:text-6xl font-bold text-gray-100 drop-shadow-lg">Featured Works</h3>
           <div className="w-16 h-[2px] bg-gradient-to-r from-transparent via-gold-500 to-transparent mt-6 opacity-70" />
         </div>
 
